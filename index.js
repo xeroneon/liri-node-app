@@ -1,8 +1,10 @@
 require("dotenv").config();
 
-var keys = require("/keys.js")
+var keys = require("./keys");
 
-var spotify = new Spotify(keys.spotify);
+var Twitter = require('twitter');
+
+// var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
 
 var inquirer = require("inquirer");
@@ -21,7 +23,14 @@ inquirer.prompt([
   
     switch(response.command) {
         case "Show my tweets":
-            // show tweets
+        client.get('statuses/user_timeline', {user_id: "xeroneon12", count: 20}, function(error, tweets, response) {
+            if (!error) {
+              for (let i = 0; i < tweets.length; i++) {
+                  console.log(tweets[i].text);
+                  console.log("================================");
+              }
+            }
+          });
         break;
         case "Spotify a song":
             inquirer.prompt([
